@@ -14,7 +14,6 @@ import (
 	"log"
 	"mime"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 
@@ -145,9 +144,6 @@ func (ts *taskServer) dueHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 type taskServer struct {
-	//к пакету task store- "example.com/internal/taskstore"
-	// он предоставляет простое "хранилище данных" для задач в памяти.
-	//Задачи однозначно идентифицируются с помощью числовых идентификаторов.
 	store *taskstore.TaskStore
 }
 
@@ -168,5 +164,5 @@ func main() {
 	mux.HandleFunc("GET /tag/{tag}/", server.tagHandler)
 	mux.HandleFunc("GET /due/{year}/{month}/{day}/", server.dueHandler)
 
-	log.Fatal(http.ListenAndServe("localhost:8080"+os.Getenv("SERVERPORT"), mux))
+	http.ListenAndServe("localhost:8080", mux)
 }
